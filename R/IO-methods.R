@@ -1780,8 +1780,12 @@ import_biom <- function(BIOMfilename,
 	########################################
 	# OTU table:
 	########################################
-	otutab = otu_table(as(biom_data(x), "matrix"), taxa_are_rows=TRUE)
-	colnames(otutab) <- colnames(x)
+	mat <- as(biom_data(x), "matrix")
+  	if (is.null(dim(mat))) {
+    	mat <- matrix(mat, ncol = 1)
+  	}
+ 	colnames(mat) <- colnames(x)
+  	otutab = otu_table(mat, taxa_are_rows = TRUE)
 	argumentlist <- c(argumentlist, list(otutab))
 	
 	########################################
