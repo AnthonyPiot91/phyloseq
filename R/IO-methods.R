@@ -1784,7 +1784,14 @@ import_biom <- function(BIOMfilename,
   	if (is.null(dim(mat))) {
     	mat <- matrix(mat, ncol = 1)
   	}
- 	colnames(mat) <- colnames(x)
+
+	# Set names from sample_metadata if present
+	if (!is.null(sample_metadata(x))) {
+    	colnames(mat) <- rownames(sample_metadata(x))
+	} else {
+    	colnames(mat) <- colnames(x)
+	}
+	
   	otutab = otu_table(mat, taxa_are_rows = TRUE)
 	argumentlist <- c(argumentlist, list(otutab))
 	
